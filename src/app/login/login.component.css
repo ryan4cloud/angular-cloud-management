@@ -1,0 +1,43 @@
+.login-layout {
+    height: 100%;
+    width: 100%;
+    background-color: #eaeaea;
+}
+.login-form {
+    max-width: 400px;
+    margin: 10% auto;
+    background-color: white;
+    box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.form-item {
+    padding: 25px 35px;
+}
+
+.login-form-forgot {
+    float: right;
+}
+
+.login-form-button {
+    width: 100%;
+}
+
+.logo-layout {
+    background-color: royalblue;
+    height: 70px;
+    color: white;
+    font-size: 18px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 70px;
+}
+
+img {
+    width: auto;
+    max-height: 60px;
+    padding: 0 8px;
+}
