@@ -5,6 +5,7 @@ import { ApiService } from '../api.service';
 import { HttpParams } from '@angular/common/http';
 import { NzMessageService } from "ng-zorro-antd/message";
 import { isNullOrUndefined } from 'util';
+import { CookieService } from "ngx-cookie-service";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private api: ApiService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private cookie: CookieService
   ) { }
 
   ngOnInit() {
@@ -52,12 +54,15 @@ export class LoginComponent implements OnInit {
         if (data['error'] != null && data['error'] != '') {
           this.message.create('error', data['error_description']);
         }
-        window.sessionStorage.setItem('x-auth-token', data['access_token']);
+        this.cookie.set('x-auth-token', data['access_token'], data['expires_in']);
+        this.cookie.set('x-refresh-token', data['refresh_token'], data['expires_in']);
+        this.cookie.set('x-token-type', data['token_type'], data['expires_in']);
         const redirect = localStorage.getItem('redirectUrl')
         if (!isNullOrUndefined(redirect)) {
           this.router.navigate([redirect]);
+        } else {
+          this.router.navigate(['/']);
         }
-        this.router.navigate(['/']);
       }
     );
     

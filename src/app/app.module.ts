@@ -14,6 +14,7 @@ import { IndexComponent } from './index/index.component';
 import { IndexRoutingModule } from "./index/index-routing.module";
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
+import { CookieService } from 'ngx-cookie-service';
 
 registerLocaleData(zh);
 
@@ -36,7 +37,8 @@ registerLocaleData(zh);
       ReactiveFormsModule
    ],
    providers: [
-      { provide: NZ_I18N, useValue: zh_CN }
+      { provide: NZ_I18N, useValue: zh_CN },
+      CookieService
    ],
    bootstrap: [
       AppComponent

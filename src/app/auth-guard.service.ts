@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { isNullOrUndefined } from 'util';
+import { NzMessageService } from "ng-zorro-antd/message";
+import { CookieService } from "ngx-cookie-service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    let url: string = state.url;
-    return this.checkLogin(url);
-  }
 
   constructor(
-    private router: Router
+    private router: Router,
+    private message: NzMessageService,
+    private cookie: CookieService
   ) { }
 
-  checkLogin(url: string): boolean {
-    const token = window.sessionStorage.getItem('x-auth-token');
-    if (token == null || token == '' || token == 'undefined') {
-      console.log('token is null or undefined');
-      localStorage.setItem('redirectUrl', url);
-      this.router.navigate(['/login']);
-      return false;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    if (this.cookie.get('x-auth-token')) {
+      return true;
     }
-    return true;
+    this.message.warning('请登录后再访问！');
+    this.router.navigate(['/login'], { queryParams: { redirectUrl: state.url }});
+    return false;
   }
 
 }
